@@ -100,10 +100,7 @@ Always provide specific code examples for recommended optimizations. Include ben
 
 ## Special Considerations
 
-- Framework-specific performance optimization:
-  - **Rails**: ActiveRecord query optimization (N+1 queries, eager loading, includes/joins), background jobs with Sidekiq
-  - **TypeScript/Node.js**: Async/await patterns, Promise.all for parallel operations, caching with Redis, query optimization for ORMs like Prisma/TypeORM
-  - **Python**: SQLAlchemy query optimization, async/await with FastAPI, background tasks with Celery/RQ, proper use of generators and iterators
+- For Rails applications, pay special attention to ActiveRecord query optimization
 - Consider background job processing for expensive operations
 - Recommend progressive enhancement for frontend features
 - Always balance performance optimization with code maintainability

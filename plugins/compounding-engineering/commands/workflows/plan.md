@@ -1,4 +1,10 @@
-# Create GitHub Issue
+---
+name: plan
+description: Transform feature descriptions into well-structured project plans following conventions
+argument-hint: "[feature description, bug report, or improvement idea]"
+---
+
+# Create a plan for a new feature or bug fix
 
 ## Introduction
 
@@ -19,8 +25,8 @@ First, I need to understand the project's conventions and existing patterns, lev
 Runn these three agents in paralel at the same time:
 
 - Task repo-research-analyst(feature_description)
-- Task best-practices-researcher (feature_description)
-- Task framework-docs-researcher (feature_description)
+- Task best-practices-researcher(feature_description)
+- Task framework-docs-researcher(feature_description)
 
 **Reference Collection:**
 
@@ -38,7 +44,6 @@ Think like a product manager - what would make this issue clear and actionable? 
 **Title & Categorization:**
 
 - [ ] Draft clear, searchable issue title using conventional format (e.g., `feat:`, `fix:`, `docs:`)
-- [ ] Identify appropriate labels from repository's label set (`gh label list`)
 - [ ] Determine issue type: enhancement, bug, refactor
 
 **Stakeholder Analysis:**
@@ -53,9 +58,21 @@ Think like a product manager - what would make this issue clear and actionable? 
 - [ ] Gather supporting materials (error logs, screenshots, design mockups)
 - [ ] Prepare code examples or reproduction steps if applicable, name the mock filenames in the lists
 
-### 3. Choose Implementation Detail Level
+### 3. SpecFlow Analysis
 
-Select how comprehensive you want the issue to be:
+After planning the issue structure, run SpecFlow Analyzer to validate and refine the feature specification:
+
+- Task spec-flow-analyzer(feature_description, research_findings)
+
+**SpecFlow Analyzer Output:**
+
+- [ ] Review SpecFlow analysis results
+- [ ] Incorporate any identified gaps or edge cases into the issue
+- [ ] Update acceptance criteria based on SpecFlow findings
+
+### 4. Choose Implementation Detail Level
+
+Select how comprehensive you want the issue to be, simpler is mostly better.
 
 #### 📄 MINIMAL (Quick Issue)
 
@@ -97,7 +114,6 @@ end
 
 - Related issue: #[issue_number]
 - Documentation: [relevant_docs_url]
-````
 
 #### 📋 MORE (Standard Issue)
 
@@ -275,7 +291,7 @@ end
 - Design documents: [links]
 ```
 
-### 4. Issue Creation & Formatting
+### 5. Issue Creation & Formatting
 
 <thinking>
 Apply best practices for clarity and actionability, making the issue easy to scan and understand
@@ -302,26 +318,26 @@ Apply best practices for clarity and actionability, making the issue easy to sca
 
 ```markdown
 # Good example with syntax highlighting and line references
+```
 
-\`\`\`ruby
-
+```ruby
 # app/services/user_service.rb:42
-
 def process_user(user)
 
 # Implementation here
 
-end \`\`\`
+end
+```
+````
 
 # Collapsible error logs
 
 <details>
 <summary>Full error stacktrace</summary>
 
-\`\`\` Error details here... \`\`\`
+`Error details here...`
 
 </details>
-```
 
 **AI-Era Considerations:**
 
@@ -331,7 +347,7 @@ end \`\`\`
 - [ ] Emphasize comprehensive testing given rapid implementation
 - [ ] Document any AI-generated code that needs human review
 
-### 5. Final Review & Submission
+### 6. Final Review & Submission
 
 **Pre-submission Checklist:**
 
@@ -345,11 +361,9 @@ end \`\`\`
 
 ## Output Format
 
-Present the complete issue content within `<github_issue>` tags, ready for GitHub CLI:
+write to plans/<issue_title>.md
 
-```bash
-gh issue create --title "[TITLE]" --body "[CONTENT]" --label "[LABELS]"
-```
+Now call the /plan_review command with the plan file as the argument. Make sure to include the plan file in the command.
 
 ## Thinking Approaches
 
@@ -357,3 +371,9 @@ gh issue create --title "[TITLE]" --body "[CONTENT]" --label "[LABELS]"
 - **User-Centric:** Consider end-user impact and experience
 - **Technical:** Evaluate implementation complexity and architecture fit
 - **Strategic:** Align with project goals and roadmap
+
+After you get the review back, ask the user questions about the current state of the plan and what the reviewers came back with. Make sure to underatand if this plan is too big or thinks are missing. Are there any other considerations that should be included? Keep askign questions until the user is happy with the plan. THEN update the plan file with the user's feedback.
+
+Optional you can ask to create a Github issue from the plan file.
+
+NEVER CODE! Just research and write the plan.

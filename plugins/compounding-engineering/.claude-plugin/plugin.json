@@ -1,21 +1,24 @@
 {
   "name": "compounding-engineering",
-  "version": "1.1.0",
-  "description": "AI-powered development tools that get smarter with every use. Make each unit of engineering work easier than the last. Includes 17 specialized agents, 6 commands, and 1 skill.",
+  "version": "2.0.0",
+  "description": "AI-powered development tools. 24 agents (organized by category: review, research, design, workflow, docs), 15 commands, 11 skills for code review, research, design, and workflow automation.",
   "author": {
     "name": "Kieran Klaassen",
     "email": "kieran@every.to",
     "url": "https://github.com/kieranklaassen"
   },
   "homepage": "https://every.to/source-code/my-ai-had-already-fixed-the-code-before-i-saw-it",
-  "repository": "https://every.to/source-code/my-ai-had-already-fixed-the-code-before-i-saw-it",
+  "repository": "https://github.com/EveryInc/every-marketplace",
   "license": "MIT",
   "keywords": [
     "ai-powered",
     "compounding-engineering",
     "workflow-automation",
     "code-review",
-    "quality",
+    "rails",
+    "ruby",
+    "python",
+    "typescript",
     "knowledge-management",
     "image-generation"
   ]

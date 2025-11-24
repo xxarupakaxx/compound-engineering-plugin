@@ -1,7 +1,7 @@
 ---
-name: resolve_todo_parallel
-description: Resolve all pending CLI todos using parallel processing
-argument-hint: "[optional: specific todo ID or pattern]"
+name: resolve_parallel
+description: Resolve all TODO comments using parallel processing
+argument-hint: "[optional: specific TODO pattern or file]"
 ---
 
 Resolve all TODO comments using parallel processing.
@@ -10,7 +10,7 @@ Resolve all TODO comments using parallel processing.
 
 ### 1. Analyze
 
-Get all unresolved TODOs from the /todos/\*.md directory
+Gather the things todo from above.
 
 ### 2. Plan
 
@@ -31,5 +31,4 @@ Always run all in parallel subagents/Tasks for each Todo item.
 ### 4. Commit & Resolve
 
 - Commit changes
-- Remove the TODO from the file, and mark it as resolved.
 - Push to remote

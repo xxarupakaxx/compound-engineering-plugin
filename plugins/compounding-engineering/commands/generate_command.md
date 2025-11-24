@@ -1,3 +1,9 @@
+---
+name: generate_command
+description: Create a new custom slash command following conventions and best practices
+argument-hint: "[command purpose and requirements]"
+---
+
 # Create a Custom Claude Code Command
 
 Create a new slash command in `.claude/commands/` for the requested task.
@@ -36,6 +42,23 @@ Create a new slash command in `.claude/commands/` for the requested task.
 4. **Include success criteria** - tests pass, linting clean, etc.
 5. **Think first** - use "think hard" or "plan" keywords for complex problems
 6. **Iterate** - guide the process step by step
+
+## Required: YAML Frontmatter
+
+**EVERY command MUST start with YAML frontmatter:**
+
+```yaml
+---
+name: command-name
+description: Brief description of what this command does (max 100 chars)
+argument-hint: "[what arguments the command accepts]"
+---
+```
+
+**Fields:**
+- `name`: Lowercase command identifier (used internally)
+- `description`: Clear, concise summary of command purpose
+- `argument-hint`: Shows user what arguments are expected (e.g., `[file path]`, `[PR number]`, `[optional: format]`)
 
 ## Structure Your Command
 
@@ -93,14 +116,8 @@ Implement #$ARGUMENTS following these steps:
    - Ensure code follows CLAUDE.md conventions
 
 4. Verify
-   - Run tests:
-     - Rails: `bin/rails test` or `bundle exec rspec`
-     - TypeScript: `npm test` or `yarn test` (Jest/Vitest)
-     - Python: `pytest` or `python -m pytest`
-   - Run linter:
-     - Rails: `bundle exec standardrb` or `bundle exec rubocop`
-     - TypeScript: `npm run lint` or `eslint .`
-     - Python: `ruff check .` or `flake8`
+   - Run tests: `bin/rails test`
+   - Run linter: `bundle exec standardrb`
    - Check changes with git diff
 
 5. Commit (optional)
@@ -108,4 +125,38 @@ Implement #$ARGUMENTS following these steps:
    - Write clear commit message
 ```
 
-Now create the command file at `.claude/commands/[name].md` with the structure above.
+## Creating the Command File
+
+1. **Create the file** at `.claude/commands/[name].md` or `.claude/commands/workflows/[name].md`
+2. **Start with YAML frontmatter** (see section above)
+3. **Structure the command** using the template above
+4. **Test the command** by using it with appropriate arguments
+
+## Command File Template
+
+```markdown
+---
+name: command-name
+description: What this command does
+argument-hint: "[expected arguments]"
+---
+
+# Command Title
+
+Brief introduction of what the command does and when to use it.
+
+## Workflow
+
+### Step 1: [First Major Step]
+
+Details about what to do.
+
+### Step 2: [Second Major Step]
+
+Details about what to do.
+
+## Success Criteria
+
+- [ ] Expected outcome 1
+- [ ] Expected outcome 2
+```
