@@ -425,6 +425,35 @@ After creating all todo files, present comprehensive summary:
 
 ```
 
+### 7. Playwright Testing (Optional)
+
+<offer_testing>
+After presenting the Summary Report, ask the user:
+
+**"Want to run Playwright tests on the affected pages?"**
+1. Yes - run `/playwright-test`
+2. No - skip to next steps
+</offer_testing>
+
+#### If User Accepts:
+
+Spawn a subagent to run the tests (preserves main context):
+
+```
+Task general-purpose("Run /playwright-test for PR #[number]. Test all affected pages, check for console errors, handle failures by creating todos and fixing.")
+```
+
+The subagent will:
+1. Identify pages affected by the PR
+2. Navigate to each page and capture snapshots
+3. Check for console errors
+4. Test critical interactions
+5. Pause for human verification on OAuth/email/payment flows
+6. Create P1 todos for any failures
+7. Fix and retry until all tests pass
+
+**Alternatively**, user can run standalone: `/playwright-test [PR number]`
+
 ### Important: P1 Findings Block Merge
 
 Any **🔴 P1 (CRITICAL)** findings must be addressed before merging the PR. Present these prominently and ensure they're resolved before accepting the PR.

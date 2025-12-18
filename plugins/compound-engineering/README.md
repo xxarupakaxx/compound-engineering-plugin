@@ -7,8 +7,8 @@ AI-powered development tools that get smarter with every use. Make each unit of 
 | Component | Count |
 |-----------|-------|
 | Agents | 27 |
-| Commands | 17 |
-| Skills | 12 |
+| Commands | 18 |
+| Skills | 13 |
 | MCP Servers | 2 |
 
 ## Agents
@@ -95,6 +95,7 @@ Core workflow commands use `workflows:` prefix to avoid collisions with built-in
 | `/resolve_pr_parallel` | Resolve PR comments in parallel |
 | `/resolve_todo_parallel` | Resolve todos in parallel |
 | `/triage` | Triage and prioritize issues |
+| `/playwright-test` | Run browser tests on PR-affected pages |
 
 ## Skills
 

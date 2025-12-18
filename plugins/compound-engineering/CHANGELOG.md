@@ -5,6 +5,16 @@ All notable changes to the compound-engineering plugin will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.14.0] - 2025-12-18
+
+### Added
+
+- **`/playwright-test` command** - Run end-to-end browser tests on pages affected by a PR or branch. Uses Playwright MCP to navigate pages, capture snapshots, check console errors, test interactions, and pause for human verification on OAuth/email/payment flows. Creates P1 todos for failures and retries until passing.
+
+### Changed
+
+- **`/workflows:review` command** - Added optional Playwright testing phase (Section 7). After review agents complete, offers to spawn `/playwright-test` as a subagent to verify affected pages in a real browser.
+
 ## [2.13.0] - 2025-12-15
 
 ### Added
