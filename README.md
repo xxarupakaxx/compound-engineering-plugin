@@ -18,9 +18,9 @@ A Claude Code plugin marketplace featuring the **Compound Engineering Plugin** �
 /add-plugin compound-engineering
 ```
 
-## OpenCode, Codex, Droid & Pi (experimental) Install
+## OpenCode, Codex, Droid & Pi & Gemini (experimental) Install
 
-This repo includes a Bun/TypeScript CLI that converts Claude Code plugins to OpenCode, Codex, Factory Droid and Pi.
+This repo includes a Bun/TypeScript CLI that converts Claude Code plugins to OpenCode, Codex, Factory Droid, Pi, and Gemini CLI.
 
 ```bash
 # convert the compound-engineering plugin into OpenCode format
@@ -34,6 +34,9 @@ bunx @every-env/compound-plugin install compound-engineering --to droid
 
 # convert to Pi format
 bunx @every-env/compound-plugin install compound-engineering --to pi
+
+# convert to Gemini CLI format
+bunx @every-env/compound-plugin install compound-engineering --to gemini
 ```
 
 Local dev:
@@ -46,6 +49,7 @@ OpenCode output is written to `~/.config/opencode` by default, with `opencode.js
 Codex output is written to `~/.codex/prompts` and `~/.codex/skills`, with each Claude command converted into both a prompt and a skill (the prompt instructs Codex to load the corresponding skill). Generated Codex skill descriptions are truncated to 1024 characters (Codex limit).
 Droid output is written to `~/.factory/` with commands, droids (agents), and skills. Claude tool names are mapped to Factory equivalents (`Bash` → `Execute`, `Write` → `Create`, etc.) and namespace prefixes are stripped from commands.
 Pi output is written to `~/.pi/agent/` by default with prompts, skills, extensions, and `compound-engineering/mcporter.json` for MCPorter interoperability.
+Gemini output is written to `.gemini/` with skills (from agents), commands (`.toml`), and `settings.json` (MCP servers). Namespaced commands create directory structure (`workflows:plan` → `commands/workflows/plan.toml`). Skills use the identical SKILL.md standard and pass through unchanged.
 
 All provider targets are experimental and may change as the formats evolve.
 
