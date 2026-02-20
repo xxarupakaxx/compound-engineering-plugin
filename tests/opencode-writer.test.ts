@@ -120,4 +120,56 @@ describe("writeOpenCodeBundle", () => {
     const backupContent = JSON.parse(await fs.readFile(path.join(outputRoot, backupFileName!), "utf8"))
     expect(backupContent.custom).toBe("value")
   })
+
+  test("writes command files as .md in commands/ directory", async () => {
+    const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "opencode-cmd-"))
+    const outputRoot = path.join(tempRoot, ".config", "opencode")
+    const bundle: OpenCodeBundle = {
+      config: { $schema: "https://opencode.ai/config.json" },
+      agents: [],
+      plugins: [],
+      commandFiles: [{ name: "my-cmd", content: "---\ndescription: Test\n---\n\nDo something." }],
+      skillDirs: [],
+    }
+
+    await writeOpenCodeBundle(outputRoot, bundle)
+
+    const cmdPath = path.join(outputRoot, "commands", "my-cmd.md")
+    expect(await exists(cmdPath)).toBe(true)
+
+    const content = await fs.readFile(cmdPath, "utf8")
+    expect(content).toBe("---\ndescription: Test\n---\n\nDo something.\n")
+  })
+
+  test("backs up existing command .md file before overwriting", async () => {
+    const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "opencode-cmd-backup-"))
+    const outputRoot = path.join(tempRoot, ".opencode")
+    const commandsDir = path.join(outputRoot, "commands")
+    await fs.mkdir(commandsDir, { recursive: true })
+
+    const cmdPath = path.join(commandsDir, "my-cmd.md")
+    await fs.writeFile(cmdPath, "old content\n")
+
+    const bundle: OpenCodeBundle = {
+      config: { $schema: "https://opencode.ai/config.json" },
+      agents: [],
+      plugins: [],
+      commandFiles: [{ name: "my-cmd", content: "---\ndescription: New\n---\n\nNew content." }],
+      skillDirs: [],
+    }
+
+    await writeOpenCodeBundle(outputRoot, bundle)
+
+    // New content should be written
+    const content = await fs.readFile(cmdPath, "utf8")
+    expect(content).toBe("---\ndescription: New\n---\n\nNew content.\n")
+
+    // Backup should exist
+    const files = await fs.readdir(commandsDir)
+    const backupFileName = files.find((f) => f.startsWith("my-cmd.md.bak."))
+    expect(backupFileName).toBeDefined()
+
+    const backupContent = await fs.readFile(path.join(commandsDir, backupFileName!), "utf8")
+    expect(backupContent).toBe("old content\n")
+  })
 })

@@ -81,3 +81,49 @@ Template text here...
 - Converter now produces command files ready for file-system output
 - Writer phase will handle writing to `.opencode/commands/` directory
 - Phase 1 type changes are now fully utilizeds
+
+---
+
+## Decision: Phase 3 - Writer Writes Command .md Files
+
+**Date:** 2026-02-20  
+**Status:** Implemented
+
+## Context
+
+The writer needs to write command files from the bundle to the file system.
+
+## Decision
+
+In `src/targets/opencode.ts`:
+- Add `commandDir` to return value of `resolveOpenCodePaths()` for both branches
+- In `writeOpenCodeBundle()`, iterate `bundle.commandFiles` and write each as `<commandsDir>/<name>.md` with backup-before-overwrite
+
+### Path Resolution
+
+- Global branch (basename is "opencode" or ".opencode"): `commandsDir: path.join(outputRoot, "commands")`
+- Custom branch: `commandDir: path.join(outputRoot, ".opencode", "commands")`
+
+### Writing Logic
+
+```typescript
+for (const commandFile of bundle.commandFiles) {
+  const dest = path.join(openCodePaths.commandDir, `${commandFile.name}.md`)
+  const cmdBackupPath = await backupFile(dest)
+  if (cmdBackupPath) {
+    console.log(`Backed up existing command file to ${cmdBackupPath}`)
+  }
+  await writeText(dest, commandFile.content + "\n")
+}
+```
+
+## Consequences
+
+- Command files are written to `.opencode/commands/` or `commands/` directory
+- Existing files are backed up before overwriting
+- Files content includes trailing newline
+
+## Alternatives Considered
+
+1. Use intermediate variable for commandDir - Rejected: caused intermittent undefined errors
+2. Use direct property reference `openCodePaths.commandDir` - Chosen: more reliable
