@@ -181,5 +181,57 @@ If existing `opencode.json` is malformed JSON, warn and write plugin-only config
 ## Alternatives Considered
 
 1. Plugin wins on conflict - Rejected: would overwrite user data
-2. Merge and combine arrays - Rejected: MCP servers are keyed objects, not array
+2. Merge and combine arrays - Rejected: MCP servers are keyed object, not array
 3. Fail on conflict - Rejected: breaks installation workflow
+
+---
+
+## Decision: ADR-003 - Permissions Default "none" for OpenCode Output
+
+**Date:** 2026-02-20  
+**Status:** Implemented
+
+## Context
+
+When installing a Claude plugin to OpenCode format, the `--permissions` flag determines whether permission/tool mappings is written to `opencode.json`. The previous default was `"broad"`, which writes global permissions to the user's config file.
+
+## Decision
+
+Change the default value of `--permissions` from `"broad"` to `"none"` in the install command.
+
+### Rationale
+
+- **User safety:** Writing global permissions to `opencode.json` pollutes user config and may grant unintended access
+- **Principle alignment:** Follows AGENTS.md "Do not delete or overwrite user data"
+- **Explicit opt-in:** Users must explicitly request `--permissions broad` to write permissions to their config
+- **Backward compatible:** Existing workflows using `--permissions broad` continues to work
+
+### Implementation
+
+In `src/commands/install.ts`:
+```typescript
+permissions: {
+  type: "string",
+  default: "none", // Default is "none" -- writing global permissions to opencode.json pollutes user config. See ADR-003.
+  description: "Permission mapping written to opencode.json: none (default) | broad | from-command",
+},
+```
+
+### Test Coverage
+
+Added two CLI tests cases:
+1. `install --to opencode uses permissions:none by default` - Verifies no `permission` or `tools` key in output
+2. `install --to opencode --permissions broad writes permission block` - Verifies `permission` key is written when explicitly requested
+
+## Consequences
+
+- **Positive:** User config remains clean by default
+- **Positive:** Explicit opt-in required for permission writing
+- **Negative:** Users migrating from older versions need to explicitly use `--permissions broad` if they want permissions
+- **Migration path:** Document the change in migration notes
+
+## Alternatives Considered
+
+1. Keep "broad" as default - Rejected: pollutes user config
+2. Prompt user interactively - Rejected: breaks CLI automation
+3. Write to separate file - Rejected: OpenCode expects permissions in opencode.json
